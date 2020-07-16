@@ -6,10 +6,21 @@ class RegisterController = _RegisterControllerBase with _$RegisterController;
 
 abstract class _RegisterControllerBase with Store {
   @observable
-  int value = 0;
+  String email = "";
+  @observable
+  String password = "";
+  @observable
+  String confirmPassword = "";
 
   @action
-  void increment() {
-    value++;
+  void setEmail(String _email) => email = _email;
+  @action
+  void setPassword(String _password) => password = _password;
+  @action
+  void setConfirmPassword(String _confirmPassword) =>
+      confirmPassword = _confirmPassword;
+  @action
+  Future<bool> register() async {
+    return true;
   }
 }

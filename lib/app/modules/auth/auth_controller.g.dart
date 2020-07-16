@@ -39,37 +39,33 @@ mixin _$AuthController on _AuthControllerBase, Store {
     });
   }
 
+  final _$loginAsyncAction = AsyncAction('_AuthControllerBase.login');
+
+  @override
+  Future<bool> login() {
+    return _$loginAsyncAction.run(() => super.login());
+  }
+
   final _$_AuthControllerBaseActionController =
       ActionController(name: '_AuthControllerBase');
 
   @override
-  void setEmail(String email) {
+  void setEmail(String _email) {
     final _$actionInfo = _$_AuthControllerBaseActionController.startAction(
         name: '_AuthControllerBase.setEmail');
     try {
-      return super.setEmail(email);
+      return super.setEmail(_email);
     } finally {
       _$_AuthControllerBaseActionController.endAction(_$actionInfo);
     }
   }
 
   @override
-  void setPassword(String password) {
+  void setPassword(String _password) {
     final _$actionInfo = _$_AuthControllerBaseActionController.startAction(
         name: '_AuthControllerBase.setPassword');
     try {
-      return super.setPassword(password);
-    } finally {
-      _$_AuthControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  void login() {
-    final _$actionInfo = _$_AuthControllerBaseActionController.startAction(
-        name: '_AuthControllerBase.login');
-    try {
-      return super.login();
+      return super.setPassword(_password);
     } finally {
       _$_AuthControllerBaseActionController.endAction(_$actionInfo);
     }

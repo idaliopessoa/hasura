@@ -19,9 +19,6 @@ class _AuthPageState extends ModularState<AuthPage, AuthController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
       body: Stack(
         children: <Widget>[
           Positioned(
@@ -59,13 +56,13 @@ class _AuthPageState extends ModularState<AuthPage, AuthController> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   LabelWidget(
-                    title: "Login:",
+                    title: "Email:",
                   ),
                   TextField(
-                    onChanged: controller.setDescricao,
+                    onChanged: controller.setEmail,
                     style: TextStyle(color: Theme.of(context).primaryColor),
                     decoration: InputDecoration(
-                      hintText: "Descricao do Produto",
+                      hintText: "Digite seu email",
                       border: OutlineInputBorder(
                           borderSide: BorderSide(
                               color: Theme.of(context).primaryColor, width: 2)),
@@ -81,14 +78,15 @@ class _AuthPageState extends ModularState<AuthPage, AuthController> {
                     height: 20,
                   ),
                   LabelWidget(
-                    title: "Valor:",
+                    title: "Senha:",
                   ),
                   TextField(
-                    onChanged: controller.setValor,
+                    obscureText: true,
+                    onChanged: controller.setPassword,
                     keyboardType: TextInputType.number,
                     style: TextStyle(color: Theme.of(context).primaryColor),
                     decoration: InputDecoration(
-                      hintText: "Valor",
+                      hintText: "Digite sua senha",
                       border: OutlineInputBorder(
                           borderSide: BorderSide(
                               color: Theme.of(context).primaryColor, width: 2)),
@@ -101,93 +99,23 @@ class _AuthPageState extends ModularState<AuthPage, AuthController> {
                     ),
                   ),
                   SizedBox(
-                    height: 20,
-                  ),
-                  LabelWidget(
-                    title: "Categoria do Produto:",
-                  ),
-                  Observer(
-                    builder: (BuildContext context) {
-                      if (controller.tipoProduto == null) {
-                        return Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(3),
-                                border: Border.all(
-                                    width: 2,
-                                    color: Theme.of(context).primaryColor)),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: <Widget>[
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: CircularProgressIndicator(),
-                                ),
-                              ],
-                            ));
-                      }
-
-                      return CustomComboboxWidget(
-                        items: controller.tipoProduto.categoriaProduto
-                            .map((data) => Model(data.id, data.descricao))
-                            .toList(),
-                        onChange: (tipo) => controller.setSelectedCategoria(
-                            TipoECategoriaDto(
-                                id: tipo.id, descricao: tipo.descricao)),
-                        itemSelecionado: null,
-                      );
-                    },
-                  ),
-                  LabelWidget(
-                    title: "Tipo Produto:",
-                  ),
-                  Observer(
-                    builder: (BuildContext context) {
-                      if (controller.tipoProduto == null) {
-                        return Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(3),
-                                border: Border.all(
-                                    width: 2,
-                                    color: Theme.of(context).primaryColor)),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: <Widget>[
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: CircularProgressIndicator(),
-                                ),
-                              ],
-                            ));
-                      }
-                      return CustomComboboxWidget(
-                        items: controller.tipoProduto.tipoProduto
-                            .map((data) => Model(data.id, data.descricao))
-                            .toList(),
-                        onChange: (tipo) => controller.setSelectedTipo(
-                            TipoECategoriaDto(
-                                id: tipo.id, descricao: tipo.descricao)),
-                        itemSelecionado: null,
-                      );
-                    },
-                  ),
-                  SizedBox(
-                    height: 20,
+                    height: 40,
                   ),
                   Container(
                     width: MediaQuery.of(context).size.width,
                     child: RaisedButton(
                       color: Theme.of(context).primaryColor,
                       onPressed: () async {
-                        var result = await controller.salvar();
+                        var result = await controller.login();
 
                         if (result) {
-                          Navigator.of(context).pop();
+                          Navigator.of(context).pushReplacementNamed('/home');
                         } else {
                           showDialog(
                               context: context,
                               child: AlertDialog(
-                                content:
-                                    Text("Erro ao tentar salvar o produto!"),
+                                content: Text(
+                                    "Erro ao tentar efetuar o login! Tente novamente"),
                                 actions: <Widget>[
                                   FlatButton(
                                     child: Text("Fechar"),
@@ -202,7 +130,7 @@ class _AuthPageState extends ModularState<AuthPage, AuthController> {
                       child: Padding(
                         padding: const EdgeInsets.all(10),
                         child: Text(
-                          "Salvar",
+                          "Login",
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 18,
@@ -210,7 +138,53 @@ class _AuthPageState extends ModularState<AuthPage, AuthController> {
                         ),
                       ),
                     ),
-                  )
+                  ),
+                  SizedBox(
+                    height: 40,
+                  ),
+                  Center(
+                    child: Column(
+                      children: [
+                        Text(
+                          'É sua primeria vez aqui?',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Theme.of(context).primaryColor,
+                            fontSize: 24,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        Text(
+                          'Para ter total acesso a nossa plataforma, primeiro crie uma conta',
+                          textAlign: TextAlign.center,
+                          style:
+                              TextStyle(color: Theme.of(context).primaryColor),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    child: RaisedButton(
+                      color: Theme.of(context).primaryColor,
+                      onPressed: () {
+                        Navigator.of(context).pushNamed('/register');
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: Text(
+                          "Criar conta",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),

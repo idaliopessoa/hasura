@@ -15,5 +15,7 @@ abstract class _AuthControllerBase with Store {
   @action
   void setPassword(String _password) => password = _password;
   @action
-  void login() {}
+  Future<bool> login() async {
+    return false;
+  }
 }
