@@ -1,5 +1,3 @@
-import 'package:hasura/app/interfaces/local_storage_interface.dart';
-import 'package:hasura/app/services/local_storage_service.dart';
 import 'package:mobx/mobx.dart';
 
 part 'app_controller.g.dart';
